@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="navbar">
+    <a href="#home">Home</a>
+    <a href="#news">Info</a>
+
+    <div class="dropdown">
+        <button class="dropbtn">Experiments 
+        <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content" id="dropdown-div">
+        </div>
+    </div> 
+    <a href="#" class="logout">Log out</a>
+    </div>
+
+    <div class="page-container">
+        <div class="main-container">
+            <div class="chart-container">
+                <h4 id="expTitle">Experiment</h4>
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="sidebar-container">
+                <div class="box tb">
+                    <p class="value" id="Tb">32°C</p>
+                    <p class="heading">Body Temperature</p>
+                </div>
+                <div class="box cageTemp">
+                    <p class="value" id="Tc">28°C</p>
+                    <p class="heading">Cage Temperature</p>
+                </div>
+                <div class="box setPoint">
+                    <p class="value" id="Ts">30°C</p>
+                    <p class="heading">Set Point Temperature</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom-container">
+            <div class="coolingPhase">
+                <p class="valueCooling" id="Tc">Maintenance</p>
+                <p class="headingCooling">Cooling Phase</p>
+            </div>
+            <div class="pidParameters">
+                <div>
+                    <p class="valuePID" id="Tc">-18</p>
+                    <p class="headingPID">Proportional</p>
+                </div>
+                <div>
+                    <p class="valuePID" id="Tc">30</p>
+                    <p class="headingPID">Integral</p>
+                </div>
+                <div>
+                    <p class="valuePID" id="Tc">5</p>
+                    <p class="headingPID">Derivative</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
