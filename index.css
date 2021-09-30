@@ -9,6 +9,7 @@ body {
     background-color: #333;
 }
 
+
 .navbar a {
     float: left;
     font-size: 16px;
@@ -75,7 +76,6 @@ body {
     justify-content: space-evenly;
 }
 .chart-container{
-
     width: 70%;
     height: 70%;
     background-color: white;
@@ -89,7 +89,7 @@ body {
 .sidebar-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .bottom-container {
@@ -155,7 +155,7 @@ body {
 }
 
 .value {
-    margin-top: 35px;
+    margin-top: 20px;
     font-size: 40px;
     font-weight: bold;
     font-family: monospace;
@@ -188,4 +188,43 @@ body {
 .setPoint {
     background:rgba(129, 236, 236, 0.2);
     margin-bottom: 20px;
+}
+
+@media (max-width: 1000px) {
+    .main-container {
+        flex-direction: column;
+    }
+    .sidebar-container {
+        flex-direction: row;
+    }
+    .chart-container{
+        width: 90%;
+    }
+}
+
+@media (max-width: 700px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .sidebar-container {
+        flex-direction: row;
+    }
+
+    .chart-container {
+        width: 90%;
+    }
+
+    .bottom-container {
+        flex-direction: column;
+    }
+
+    .coolingPhase{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .pidParameters {
+        width: 100%;
+    }
 }
