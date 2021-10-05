@@ -10,19 +10,21 @@ const firebaseConfig = {
   appId: "1:669074738369:web:dd209a47a9932d8a8b5840"
 };
 
-var app = firebase.initializeApp(firebaseConfig);
-
+var app = firebase.initializeApp(firebaseConfig)
+const auth = firebase.auth()
 let drowdown = document.getElementById("dropdown-div")
 
 
 function getExp(evt) {
+  hideSections()
+  document.getElementById("dashboard").style.display = "block"
   document.getElementById("expTitle").innerHTML = "Experiment started on: " + evt.currentTarget.myParam
   graphExperiment(evt.currentTarget.myParam, myChart)
 }
 
 
 // Loads experiments into the experiment menu
-async function loadExperiments() {
+async function loadExperiments(data) {
   firebase.database().ref().once('value', (snapshot) => {
   for(let v in snapshot.val()){
     let experiment = document.createElement("a")
@@ -32,15 +34,19 @@ async function loadExperiments() {
     drowdown.appendChild(experiment)
   }
 })
-const elements = document.querySelectorAll('.exp')
 }
 
-loadExperiments()
-document.addEventListener('click', function(e) {
-  if(e.target && e.class == 'exp'){
-    console.log('i was clicked')
+function removeExperiments() {
+  while (drowdown.firstChild){
+    drowdown.removeChild(drowdown.firstChild)
   }
-})
+}
+
+// document.addEventListener('click', function(e) {
+//   if(e.target && e.class == 'exp'){
+//     console.log('i was clicked')
+//   }
+// })
 
 // Redraw graph with new data
 function newGraph() {
@@ -140,9 +146,6 @@ function graphExperiment(exp, chart) {
 }
 
 
-
-
-
 function addData(chart, x, y) {
   let i = 0
   chart.data.labels.push(x)
@@ -201,6 +204,74 @@ var myChart = new Chart(ctx, {
       spanGaps: true
     }
 });
+
+// Hides all website sections 
+function hideSections() {
+  document.getElementById("dashboard").style.display = "none"
+  document.getElementById("signup").style.display = "none"
+  document.getElementById("info").style.display = "none"
+  document.getElementById("login").style.display = "none"
+  document.getElementById("main").style.display = "none"
+
+}
+
+hideSections()
+
+document.getElementById("logBtn").addEventListener("click", () => {
+  hideSections()
+  console.log("login clicked")
+  document.getElementById("login").style.display = "block"
+} )
+
+document.getElementById("logOutBtn").addEventListener("click", (e) => {
+    e.preventDefault()
+    auth.signOut()
+})
+
+document.getElementById("infoBtn").addEventListener("click", () => {
+  hideSections()
+  document.getElementById("info").style.display = "block"
+} )
+
+
+
+const loginForm = document.querySelector("#login-form")
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const email = loginForm['login-email'].value
+  const password = loginForm['login-password'].value
   
+  auth.signInWithEmailAndPassword(email, password).then(cred => {
+    hideSections()
+    loginForm.reset();
+  })
+})
 
+auth.onAuthStateChanged(user => {
+  if (user) {
+    console.log('user loggedin: ', user)
+    setupUI(user)
+  } else {
+    console.log("user logged out")
+    setupUI()
+  }
+})
 
+const setupUI = (user) => {
+  if (user) {
+    loadExperiments()
+    document.getElementById("dashboard").style.display = "block"
+        document.getElementById("main").style.display = "none";
+
+    document.getElementById("logOutBtn").style.display = 'block'
+    document.getElementById("logBtn").style.display = 'none'
+
+  } else{
+    removeExperiments()
+    hideSections()
+    document.getElementById("main").style.display = "block";
+    document.getElementById("logOutBtn").style.display = 'none'
+    document.getElementById("logBtn").style.display = 'block'
+
+  }
+}

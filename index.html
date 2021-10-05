@@ -10,63 +10,116 @@
 </head>
 <body>
     <div class="navbar">
-    <a href="#home">Home</a>
-    <a href="#news">Info</a>
+    <a href="#" id="infoBtn">Info</a>
 
-    <div class="dropdown">
-        <button class="dropbtn">Experiments 
+    <div id="dropdown-dv" class="dropdown">
+        <button id="experimentsBtn" class="dropbtn">Experiments 
         <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content" id="dropdown-div">
         </div>
-    </div> 
-    <a href="#" class="logout">Log out</a>
+    </div>     
+    <a href="#" id="logBtn" class="logout">Sign In</a>
+    <a href="#" id="logOutBtn" class="logout">Sign out</a>
+
     </div>
 
-    <div class="page-container">
-        <div class="main-container">
-            <div class="chart-container">
-                <h4 id="expTitle">Experiment</h4>
-                <canvas id="myChart"></canvas>
-            </div>
-            <div class="sidebar-container">
-                <div class="box tb">
-                    <p class="value" id="Tb">32°C</p>
-                    <p class="heading">Body Temperature</p>
+    <div id= "dashboard">
+        <div class="page-container">
+            <div class="main-container">
+                <div class="chart-container">
+                    <h4 id="expTitle">Experiment</h4>
+                    <canvas id="myChart"></canvas>
                 </div>
-                <div class="box cageTemp">
-                    <p class="value" id="Tc">28°C</p>
-                    <p class="heading">Cage Temperature</p>
-                </div>
-                <div class="box setPoint">
-                    <p class="value" id="Ts">30°C</p>
-                    <p class="heading">Set Point Temperature</p>
+                <div class="sidebar-container">
+                    <div class="box tb">
+                        <p class="value" id="Tb">32°C</p>
+                        <p class="heading">Body Temperature</p>
+                    </div>
+                    <div class="box cageTemp">
+                        <p class="value" id="Tc">28°C</p>
+                        <p class="heading">Cage Temperature</p>
+                    </div>
+                    <div class="box setPoint">
+                        <p class="value" id="Ts">30°C</p>
+                        <p class="heading">Set Point Temperature</p>
 
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-container">
+                <div class="coolingPhase">
+                    <p class="valueCooling" id="Tc">Maintenance</p>
+                    <p class="headingCooling">Cooling Phase</p>
+                </div>
+                <div class="pidParameters">
+                    <div>
+                        <p class="valuePID" id="Tc">1</p>
+                        <p class="headingPID">Proportional</p>
+                    </div>
+                    <div>
+                        <p class="valuePID" id="Tc">30</p>
+                        <p class="headingPID">Integral</p>
+                    </div>
+                    <div>
+                        <p class="valuePID" id="Tc">5</p>
+                        <p class="headingPID">Derivative</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="bottom-container">
-            <div class="coolingPhase">
-                <p class="valueCooling" id="Tc">Maintenance</p>
-                <p class="headingCooling">Cooling Phase</p>
-            </div>
-            <div class="pidParameters">
-                <div>
-                    <p class="valuePID" id="Tc">-18</p>
-                    <p class="headingPID">Proportional</p>
-                </div>
-                <div>
-                    <p class="valuePID" id="Tc">30</p>
-                    <p class="headingPID">Integral</p>
-                </div>
-                <div>
-                    <p class="valuePID" id="Tc">5</p>
-                    <p class="headingPID">Derivative</p>
-                </div>
-            </div>
-        </div>
     </div>
+
+    <!-- Sign Up Section-->
+    <div id= "signup">
+        <h4>Sign up</h4><br />
+        <form id="signup-form">
+            <div class="input-field">
+                <input type="email" id="signup-email" required />
+                <label for="signup-email">Email address</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="signup-password" required />
+                <label for="signup-password">Choose password</label>
+            </div>
+            <button >Sign up</button>
+        </form> 
+    </div>
+
+    <!-- Login Section-->
+    <div id= "login">
+        <!-- <h4 class="login-title">Login</h4> -->
+        <form id="login-form">
+            <div class="input-field">
+                <input type="email" id="login-email" required />
+                <label for="login-email">Email address</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="login-password" required />
+                <label for="login-password">Password</label>
+            </div>
+            <button id="submitBtn">Sign In</button>
+        </form> 
+    </div>
+
+    <!-- Info Section -->
+    <div id="info">
+        <h3>COOLING EXPERIMENT WEB DASHBOARD</h3>
+        <p class="info-text">This dashboard graphs experimental animal temperature every minute in real time.
+        You can also monitor current cage and set temperature.
+        Only the last 20 min of data is shown.
+        To load experiment choose start of experiment date in the experiments menu.</p>
+    </div>
+
+    <!-- Main Section -->
+    <div id="main">
+        <h1>COOLING EXPERIMENT DASHBOARD</h1>
+        <h4>Please log in to view data.</h4>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
     <script type="module" src="index.js"></script>
 </body>

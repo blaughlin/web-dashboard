@@ -46,6 +46,14 @@ body {
     color: whitesmoke;
 }
 
+#logBtn {
+    display: none;
+}
+
+#logOutBtn {
+    display: none;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -68,14 +76,13 @@ body {
     display: block;
 }
 
-.page-container {
-}
 .main-container{
     margin-top: 2em;
     display: flex;
     justify-content: space-evenly;
 }
 .chart-container{
+    margin-left: 1em;
     width: 70%;
     height: 70%;
     background-color: white;
@@ -199,7 +206,23 @@ body {
     }
     .chart-container{
         width: 90%;
+        margin-left: 2.0em;
     }
+}
+#login {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background-color: white;
+    padding: 40px;
+}
+
+@media (max-height: 500px) {
+        #login {
+            top: 80%;
+        }
 }
 
 @media (max-width: 700px) {
@@ -213,6 +236,7 @@ body {
 
     .chart-container {
         width: 90%;
+        margin-left: 0.5em;
     }
 
     .bottom-container {
@@ -227,4 +251,62 @@ body {
     .pidParameters {
         width: 100%;
     }
+}
+
+
+input[type=email],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-title{
+    text-align: center;
+}
+
+#submitBtn {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+#submitBtn:hover {
+    background-color: #45a049;
+}
+
+#main {
+    width: 700px;
+    margin: 200px auto;
+    text-align: center;
+}
+
+#info {
+    width: 700px;
+    margin: 100px auto;
+}
+
+#info h3 {
+    text-align: center;
 }
