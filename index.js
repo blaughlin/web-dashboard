@@ -261,8 +261,7 @@ const setupUI = (user) => {
   if (user) {
     loadExperiments()
     document.getElementById("dashboard").style.display = "block"
-        document.getElementById("main").style.display = "none";
-
+    document.getElementById("main").style.display = "none";
     document.getElementById("logOutBtn").style.display = 'block'
     document.getElementById("logBtn").style.display = 'none'
 
