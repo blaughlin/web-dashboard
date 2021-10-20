@@ -1,5 +1,4 @@
 
-// TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC6mn8ubXNzemgz5KcJTxNHj8HKiZoozUU",
   authDomain: "coolingdashboard.firebaseapp.com",
@@ -22,13 +21,20 @@ function getExp(evt) {
   graphExperiment(evt.currentTarget.myParam, myChart)
 }
 
-
+let expDates = []
 // Loads experiments into the experiment menu
 async function loadExperiments(data) {
   firebase.database().ref().once('value', (snapshot) => {
+
+  // add lasted experiment to start of list
   for(let v in snapshot.val()){
+    expDates.unshift(v)
+  }
+
+  // add experiments to menu
+  for (let exp in expDates){
     let experiment = document.createElement("a")
-    experiment.innerHTML = v
+    experiment.innerHTML = expDates[exp]
     experiment.addEventListener('click', getExp, false)
     experiment.myParam = experiment.innerHTML
     drowdown.appendChild(experiment)
@@ -136,11 +142,14 @@ function graphExperiment(exp, chart) {
 
   for(var i in results){
     index++
-    document.getElementById("Tb").innerHTML =  results[i]["Tb"]
-    document.getElementById("Tc").innerHTML =  results[i]["Cage Temperature"]
-    document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"]
+    console.log(typeof(results[i]["Tb"]))
+    document.getElementById("Tb").innerHTML =  results[i]["Tb"].toFixed(1)
+    document.getElementById("Tc").innerHTML =  results[i]["Cage Temperature"].toFixed(1)
+    document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"].toFixed(1)
+    document.getElementById("kp").innerHTML =  results[i]["Proportional"]
+    document.getElementById("kd").innerHTML =  results[i]["Derivative"]
+    document.getElementById("ki").innerHTML =  results[i]["Integral"]
     addData(myChart, xAxis[index], ( [ results[i]["Tb"], results[i]["Cage Temperature"], results[i]["Set Temperature"] ]))
-
     }
   })
 }
@@ -249,10 +258,8 @@ loginForm.addEventListener('submit', (e) => {
 
 auth.onAuthStateChanged(user => {
   if (user) {
-    console.log('user loggedin: ', user)
     setupUI(user)
   } else {
-    console.log("user logged out")
     setupUI()
   }
 })
