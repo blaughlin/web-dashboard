@@ -1,4 +1,4 @@
-
+// Firebase Configuration Data
 const firebaseConfig = {
   apiKey: "AIzaSyC6mn8ubXNzemgz5KcJTxNHj8HKiZoozUU",
   authDomain: "coolingdashboard.firebaseapp.com",
@@ -9,11 +9,13 @@ const firebaseConfig = {
   appId: "1:669074738369:web:dd209a47a9932d8a8b5840"
 };
 
+// Initialize firebase 
 var app = firebase.initializeApp(firebaseConfig)
 const auth = firebase.auth()
 let drowdown = document.getElementById("dropdown-div")
+hideSections()
 
-
+// Load up experiment selected from menu
 function getExp(evt) {
   hideSections()
   document.getElementById("dashboard").style.display = "block"
@@ -42,19 +44,14 @@ async function loadExperiments(data) {
 })
 }
 
+// Hides experiments section if user is not logged in
 function removeExperiments() {
   while (drowdown.firstChild){
     drowdown.removeChild(drowdown.firstChild)
   }
 }
 
-// document.addEventListener('click', function(e) {
-//   if(e.target && e.class == 'exp'){
-//     console.log('i was clicked')
-//   }
-// })
-
-// Redraw graph with new data
+// Initializes graph
 function newGraph() {
   ctx = document.getElementById('myChart').getContext('2d');
 
@@ -125,6 +122,7 @@ function newGraph() {
   return myChart
 }
 
+// Graphs experimental data
 function graphExperiment(exp, chart) {
   const data =  firebase.database().ref(exp).limitToLast(20).on('value', (snaphot) => {
   chart.destroy()
@@ -143,18 +141,19 @@ function graphExperiment(exp, chart) {
   for(var i in results){
     index++
     console.log(typeof(results[i]["Tb"]))
-    document.getElementById("Tb").innerHTML =  results[i]["Tb"].toFixed(1)
-    document.getElementById("Tc").innerHTML =  results[i]["Cage Temperature"].toFixed(1)
-    document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"].toFixed(1)
+    document.getElementById("Tb").innerHTML =  results[i]["Tb"].toFixed(1) + "°C"
+    document.getElementById("Tc").innerHTML =  results[i]["Cage Temperature"].toFixed(1) + "°C"
+    document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"].toFixed(1) + "°C"
     document.getElementById("kp").innerHTML =  results[i]["Proportional"]
     document.getElementById("kd").innerHTML =  results[i]["Derivative"]
     document.getElementById("ki").innerHTML =  results[i]["Integral"]
+    document.getElementById("targetTemp").innerHTML = results["Target Temperature"] + "°C"
     addData(myChart, xAxis[index], ( [ results[i]["Tb"], results[i]["Cage Temperature"], results[i]["Set Temperature"] ]))
     }
   })
 }
 
-
+// Adds experimental data to chart
 function addData(chart, x, y) {
   let i = 0
   chart.data.labels.push(x)
@@ -224,26 +223,26 @@ function hideSections() {
 
 }
 
-hideSections()
 
+// Displays login screen
 document.getElementById("logBtn").addEventListener("click", () => {
   hideSections()
-  console.log("login clicked")
   document.getElementById("login").style.display = "block"
 } )
 
+// Sign out user 
 document.getElementById("logOutBtn").addEventListener("click", (e) => {
     e.preventDefault()
     auth.signOut()
 })
 
+// Dispays information screen
 document.getElementById("infoBtn").addEventListener("click", () => {
   hideSections()
   document.getElementById("info").style.display = "block"
 } )
 
-
-
+// Handle login authentication 
 const loginForm = document.querySelector("#login-form")
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -256,6 +255,7 @@ loginForm.addEventListener('submit', (e) => {
   })
 })
 
+// Monitor for user logging in oe out
 auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user)
@@ -264,6 +264,7 @@ auth.onAuthStateChanged(user => {
   }
 })
 
+// Display experiments section if user is logged in
 const setupUI = (user) => {
   if (user) {
     loadExperiments()
