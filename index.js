@@ -142,7 +142,7 @@ function graphExperiment(exp, chart) {
     index++
     console.log(typeof(results[i]["Tb"]))
     document.getElementById("Tb").innerHTML =  results[i]["Tb"].toFixed(1) + "°C"
-    document.getElementById("Tc").innerHTML =  results[i]["Cage Temperature"].toFixed(1) + "°C"
+    document.getElementById("Tc").innerHTML =  results[i]["Error"].toFixed(1) + "°C"
     document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"].toFixed(1) + "°C"
     document.getElementById("kp").innerHTML =  results[i]["Proportional"]
     document.getElementById("kd").innerHTML =  results[i]["Derivative"]
