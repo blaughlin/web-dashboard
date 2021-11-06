@@ -318,6 +318,16 @@ select {
     margin: 100px auto;
 }
 
+#config {
+        width: 70%;
+        max-width: 700px;
+        margin: 40px auto;
+}
+
 #info h3 {
     text-align: center;
+}
+
+#y_axis_config {
+    display: none;
 }

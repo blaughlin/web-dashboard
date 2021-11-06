@@ -1,3 +1,10 @@
+let dataPoints = 20
+let ymax = 100
+let ymin = 30
+let autoYControl = true
+
+let yvalues = {"min": 30, "max": 100}
+
 // Firebase Configuration Data
 const firebaseConfig = {
   apiKey: "AIzaSyC6mn8ubXNzemgz5KcJTxNHj8HKiZoozUU",
@@ -54,8 +61,8 @@ function removeExperiments() {
 // Initializes graph
 function newGraph() {
   ctx = document.getElementById('myChart').getContext('2d');
-
-  myChart = new Chart(ctx, {
+  if (autoYControl){
+ myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [],
@@ -100,9 +107,9 @@ function newGraph() {
       spanGaps: true,
       scales: {
         y:{
-          title:{
+            title:{
             display: true,
-            text: "Temperature (°C)"
+            text: "Temperature (°C)",
           }
         },
         x:{
@@ -119,12 +126,80 @@ function newGraph() {
       }
     }
 });
+  } else {
+     myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Core body temperature',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }, 
+        {
+            label: 'Cage temperature',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 159, 63, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Set temperature',
+            data: [],
+            backgroundColor: [
+                'rgba(129, 236, 236, 0.2)',
+      
+            ],
+            borderColor: [
+                'rgba(129, 236, 236,1.0)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      spanGaps: true,
+      scales: {
+        y:{
+          min: ymin,
+          max: ymax,
+            title:{
+            display: true,
+            text: "Temperature (°C)",
+          }
+        },
+        x:{
+          title:{
+            display: true,
+            text: "Time",
+          },
+          grid:{
+            ticks:{
+              sampleSize: 1
+            }
+          }
+        }
+      }
+    }
+});
+  }
   return myChart
 }
 
 // Graphs experimental data
 function graphExperiment(exp, chart) {
-  const data =  firebase.database().ref(exp).limitToLast(20).on('value', (snaphot) => {
+  const data =  firebase.database().ref(exp).limitToLast(dataPoints).on('value', (snaphot) => {
   chart.destroy()
   myChart.destroy()
   myChart = newGraph()
@@ -140,10 +215,8 @@ function graphExperiment(exp, chart) {
 
   for(var i in results){
     index++
-    console.log(typeof(results[i]["Tb"]))
     document.getElementById("Tb").innerHTML =  results[i]["Tb"].toFixed(1) + "°C"
     document.getElementById("Tc").innerHTML =  (results[i]["Error"]).toFixed(1) + "%"
-    console.log(results[i]["Error"] )
     document.getElementById("Ts").innerHTML =  results[i]["Set Temperature"].toFixed(1) + "°C"
     document.getElementById("kp").innerHTML =  results[i]["Proportional"]
     document.getElementById("kd").innerHTML =  results[i]["Derivative"]
@@ -222,9 +295,15 @@ function hideSections() {
   document.getElementById("info").style.display = "none"
   document.getElementById("login").style.display = "none"
   document.getElementById("main").style.display = "none"
+  document.getElementById("config").style.display = "none"
 
 }
 
+// Display Configure Screen
+document.getElementById("configBtn").addEventListener("click", () => {
+  hideSections()
+  document.getElementById("config").style.display = "block"
+})
 
 // Displays login screen
 document.getElementById("logBtn").addEventListener("click", () => {
@@ -236,6 +315,35 @@ document.getElementById("logBtn").addEventListener("click", () => {
 document.getElementById("logOutBtn").addEventListener("click", (e) => {
     e.preventDefault()
     auth.signOut()
+})
+
+
+// show y axis control
+document.getElementById("custom").addEventListener("click", () => {
+  autoYControl = false
+  document.getElementById("y_axis_config").style.display = 'block'
+})
+
+// hide y axis control
+document.getElementById("auto").addEventListener("click", () => {
+  autoYControl = true
+  document.getElementById("y_axis_config").style.display = 'none'
+})
+
+// change x axis 
+document.getElementById("minutes").addEventListener("change", (e) => {
+  // console.log(e.target.value)
+  dataPoints = parseInt(e.target.value)
+})
+
+// update ymin
+document.getElementById("ymin").addEventListener("change", (e) => {
+  ymin = parseFloat(e.target.value)
+})
+
+// update ymax 
+document.getElementById("ymax").addEventListener("change", (e) => {
+  ymax = parseFloat(e.target.value)
 })
 
 // Dispays information screen
@@ -284,3 +392,4 @@ const setupUI = (user) => {
 
   }
 }
+
